@@ -1,0 +1,3 @@
+[submodule "BigGAN-PyTorch"]
+	path = BigGAN-PyTorch
+	url = https://github.com/ajbrock/BigGAN-PyTorch.git
