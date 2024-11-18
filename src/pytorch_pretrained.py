@@ -53,6 +53,19 @@ def main():
     with torch.no_grad():
         generated_images = model(noise_vector, class_vector, truncation)
 
+    # Step 5: Post-process the generated image
+    # BigGAN outputs a tensor with values in the range [-1, 1]. Rescale to [0, 1].
+    generated_images = (generated_images + 1) / 2.0
+    generated_images = generated_images.clamp(0, 1)  # Ensure values are in [0, 1]
+
+    # Convert tensor to a NumPy array for visualization
+    image_array = generated_images[0].permute(1, 2, 0).cpu().numpy()
+
+    # Step 6: Display the generated image
+    plt.imshow(image_array)
+    plt.axis("off")  # Remove axis for better visualization
+    plt.title("Generated Image (Class: Dog)")
+
     # Step 5: Visualize activations for some convolutional layers
     indices = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 52]
     activations = [list(activations.items())[idx] for idx in indices]
