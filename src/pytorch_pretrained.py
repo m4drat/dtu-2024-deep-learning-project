@@ -38,12 +38,12 @@ def main():
     hook_conv_layers(model, activations)
 
     # Step 2: Generate a class vector
-    class_vector = one_hot_from_int([207], batch_size=1)
+    class_vector = one_hot_from_int([207], batch_size=10)
     class_vector = torch.from_numpy(class_vector)
 
     # Step 3: Generate random noise vector
     truncation = 0.4
-    noise_vector = truncated_noise_sample(truncation=truncation, batch_size=1)
+    noise_vector = truncated_noise_sample(truncation=truncation, batch_size=10)
     noise_vector = torch.from_numpy(noise_vector)
 
     # Step 4: Generate an image using the model
@@ -57,6 +57,11 @@ def main():
     # BigGAN outputs a tensor with values in the range [-1, 1]. Rescale to [0, 1].
     generated_images = (generated_images + 1) / 2.0
     generated_images = generated_images.clamp(0, 1)  # Ensure values are in [0, 1]
+
+    # Save all images as pngs in a directory called "generated-images"
+    for i, img in enumerate(generated_images):
+        img = img.permute(1, 2, 0).cpu().numpy()
+        plt.imsave(f"generated-images/image_{i}.png", img)
 
     # Convert tensor to a NumPy array for visualization
     image_array = generated_images[0].permute(1, 2, 0).cpu().numpy()
