@@ -7,7 +7,7 @@ from typing import List, Dict
 
 
 def hook_conv_layers(
-    model: BigGAN, activations: Dict[torch.nn.Module, torch.Tensor] | None = None
+    model: BigGAN, activations: Dict[torch.nn.Module, torch.Tensor] = None
 ):
     """
     Hook the forward pass of all convolutional layers in the model to extract their activations.
@@ -57,6 +57,11 @@ def main():
     # BigGAN outputs a tensor with values in the range [-1, 1]. Rescale to [0, 1].
     generated_images = (generated_images + 1) / 2.0
     generated_images = generated_images.clamp(0, 1)  # Ensure values are in [0, 1]
+
+    # Save individual images as pngs to the disk in the folder 'images'
+    for i in range(generated_images.shape[0]):
+        image_array = generated_images[i].permute(1, 2, 0).cpu().numpy()
+        plt.imsave(f"images/image_{i}.png", image_array)
 
     # Convert tensor to a NumPy array for visualization
     image_array = generated_images[0].permute(1, 2, 0).cpu().numpy()
