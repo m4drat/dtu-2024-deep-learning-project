@@ -80,7 +80,7 @@ def load_biggan_discriminator():
 def train_model(
     model, criterion, optimizer, scheduler, dataloaders, dataset_sizes, num_epochs=25
 ):
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     since = time.time()
 
     # Create a temporary directory to save training checkpoints
@@ -152,6 +152,9 @@ def train_model(
 
         # load best model weights
         model.load_state_dict(torch.load(best_model_params_path, weights_only=True))
+
+    # Save the model
+    torch.save(model.state_dict(), f"best_model_params-{num_epochs}-{best_acc:.4f}")
     return model
 
 
@@ -160,7 +163,7 @@ def convert_to_rgb(image):
 
 
 def main():
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     norm_mean = [0.5, 0.5, 0.5]
     norm_std = [0.5, 0.5, 0.5]
@@ -194,10 +197,10 @@ def main():
 
     # Create dataloaders for train and validation
     train_loader = torch.utils.data.DataLoader(
-        train, batch_size=16, shuffle=True, num_workers=4
+        train, batch_size=32, shuffle=True, num_workers=8
     )
     val_loader = torch.utils.data.DataLoader(
-        val, batch_size=16, shuffle=False, num_workers=4
+        val, batch_size=32, shuffle=False, num_workers=8
     )
 
     dataloaders = {"train": train_loader, "val": val_loader}
