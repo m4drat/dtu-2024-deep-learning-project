@@ -30,8 +30,9 @@ def hook_specific_layers(model: Discriminator, activations: Dict[str, torch.Tens
     # Assuming BigGAN's discriminator has a known architecture
     layer_names = ["$linear", "$embed"]  # Replace with actual layer names or indices
     for name, layer in model.named_modules():
-        print(f"Layer name: ${name}")
+  
         if name in layer_names:
+            print(f"Layer name: ${name}")
             layer.register_forward_hook(hook_fn)
 
 
