@@ -17,9 +17,7 @@ def load():
     return D
 
 
-def hook_conv_layers(
-    model: Discriminator, activations: Dict[torch.nn.Module, torch.Tensor] | None = None
-):
+def hook_conv_layers(model: Discriminator, activations=None):
     """
     Hook the forward pass of all convolutional layers in the model to extract their activations.
     """
