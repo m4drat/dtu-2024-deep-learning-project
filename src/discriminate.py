@@ -27,7 +27,7 @@ def hook_specific_layers(model: Discriminator, activations: Dict[str, torch.Tens
         activations[module.__class__.__name__] = output
 
     # Assuming BigGAN's discriminator has a known architecture
-    layer_names = ["second_to_last_layer", "last_layer"]  # Replace with actual layer names or indices
+    layer_names = ["$linear", "$embed"]  # Replace with actual layer names or indices
     for name, layer in model.named_modules():
         print(f"Layer name: ${name}")
         if name in layer_names:
@@ -90,8 +90,8 @@ def main():
         D(input_tensor, y_[:1])
 
     # Combine activations from the second-to-last and last layers
-    second_to_last = activations["second_to_last_layer"].flatten(start_dim=1)
-    last = activations["last_layer"].flatten(start_dim=1)
+    second_to_last = activations["Linear"].flatten(start_dim=1)
+    last = activations["Embedding"].flatten(start_dim=1)
     combined_features = torch.cat((second_to_last, last), dim=1)
 
     # Define the simple classifier
