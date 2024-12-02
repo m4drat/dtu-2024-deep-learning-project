@@ -90,8 +90,8 @@ def main():
         D(input_tensor, y_[:1])
 
     # Combine activations from the second-to-last and last layers
-    second_to_last = activations["Linear"].flatten(start_dim=1)
-    last = activations["Embedding"].flatten(start_dim=1)
+    second_to_last = activations["$linear"].flatten(start_dim=1)
+    last = activations["$embed"].flatten(start_dim=1)
     combined_features = torch.cat((second_to_last, last), dim=1)
 
     # Define the simple classifier
