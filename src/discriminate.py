@@ -24,6 +24,7 @@ def hook_specific_layers(model: Discriminator, activations: Dict[str, torch.Tens
     """
 
     def hook_fn(module, input, output):
+        print(f"Hook Layer name:${module.__class__.__name__}")
         activations[module.__class__.__name__] = output
 
     # Assuming BigGAN's discriminator has a known architecture
