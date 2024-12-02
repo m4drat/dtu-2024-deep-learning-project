@@ -78,7 +78,7 @@ def load_biggan_discriminator():
 
 
 def train_model(
-    model, criterion, optimizer, scheduler, dataloaders, dataset_sizes, num_epochs=25
+    model, criterion, optimizer, scheduler, dataloaders, dataset_sizes, num_epochs=16
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     since = time.time()
@@ -106,7 +106,6 @@ def train_model(
 
                 # Iterate over data.
                 for inputs, labels in dataloaders[phase]:
-                    print(inputs.shape)
                     inputs = inputs.to(device)
                     labels = labels.to(device)
 
@@ -154,7 +153,10 @@ def train_model(
         model.load_state_dict(torch.load(best_model_params_path, weights_only=True))
 
     # Save the model
-    torch.save(model.state_dict(), f"best_model_params-{num_epochs}-{best_acc:.4f}")
+    torch.save(
+        model.state_dict(),
+        f"best_model_params{time.time()}-{num_epochs}-{best_acc:.4f}",
+    )
     return model
 
 
@@ -185,7 +187,7 @@ def main():
     train_dataset = datasets.ImageFolder(root=train_dir, transform=preprocess)
     val_dataset = datasets.ImageFolder(root=val_dir, transform=preprocess)
 
-    subset_ratio = 0.1
+    subset_ratio = 1
     indices = {
         "train": torch.randperm(len(train_dataset))[
             : int(subset_ratio * len(train_dataset))
@@ -224,7 +226,7 @@ def main():
         exp_lr_scheduler,
         dataloaders,
         dataset_sizes,
-        num_epochs=25,
+        num_epochs=16,
     )
 
 
