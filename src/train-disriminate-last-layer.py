@@ -180,8 +180,8 @@ def main():
     )
 
     # Define data directory paths
-    train_dir = "datasets/Dataset/Train"
-    val_dir = "datasets/Dataset/Validation"
+    train_dir = "../datasets/2/real_vs_fake/real-vs-fake/train"
+    val_dir = "../datasets/2/real_vs_fake/real-vs-fake/valid"
 
     # Load train and validation datasets using ImageFolder
     train_dataset = datasets.ImageFolder(root=train_dir, transform=preprocess)
@@ -199,10 +199,10 @@ def main():
 
     # Create dataloaders for train and validation
     train_loader = torch.utils.data.DataLoader(
-        train, batch_size=32, shuffle=True, num_workers=8
+        train, batch_size=16, shuffle=True, num_workers=8
     )
     val_loader = torch.utils.data.DataLoader(
-        val, batch_size=32, shuffle=False, num_workers=8
+        val, batch_size=16, shuffle=False, num_workers=8
     )
 
     dataloaders = {"train": train_loader, "val": val_loader}
