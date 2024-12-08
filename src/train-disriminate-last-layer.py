@@ -17,7 +17,75 @@ from tempfile import TemporaryDirectory
 import torch.nn as nn
 import torch.optim as optim
 from torch.optim import lr_scheduler
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn import metrics
 
+
+def compute_confusion_matrix(target, pred, normalize=None):
+    return metrics.confusion_matrix(
+        target.detach().cpu().numpy(),
+        pred.detach().cpu().numpy(),
+        normalize=normalize
+    )
+
+def save_confusion_matrix(cm, classes, filename="confusion_matrix.png"):
+    def normalize(matrix, axis):
+        axis = {'true': 1, 'pred': 0}[axis]
+        return matrix / matrix.sum(axis=axis, keepdims=True)
+
+    x_labels = [classes[i] for i in classes]
+    y_labels = x_labels
+    plt.figure(figsize=(6, 6))
+    sns.heatmap(ax=plt.gca(), data=normalize(cm, 'true'), annot=True, linewidths=0.5, cmap="Reds", cbar=False, fmt=".2f", xticklabels=x_labels, yticklabels=y_labels,)
+    plt.xticks(rotation=90)
+    plt.yticks(rotation=0)
+    plt.ylabel("True class")
+    plt.xlabel("Predicted class")
+    plt.tight_layout()
+    plt.savefig(filename)
+
+def accuracy(target, pred):
+    return metrics.accuracy_score(target.detach().cpu().numpy(), pred.detach().cpu().numpy())
+
+def evaluate_model(model, dataset_loader, device, classes):
+    confusion_matrix = np.zeros((len(classes), len(classes)))
+    test_accuracy = 0
+    all_targets = []
+    all_predictions = []
+    with torch.no_grad():
+        model.eval()
+        test_accuracies = []
+        for inputs, targets in dataset_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            output = model(inputs)
+            # print('output:', output)
+            # print('targets:', targets)
+
+            predictions = (output > 0).long()
+            # print('predictions:', predictions)
+            test_accuracies.append(accuracy(targets, predictions) * len(inputs))
+
+            confusion_matrix += compute_confusion_matrix(targets, predictions)
+
+            print('confusion_matrix:', confusion_matrix)
+
+            # AUC
+            all_targets.extend(targets.cpu().numpy())
+            all_predictions.extend(predictions.view(-1).cpu().numpy())
+
+        test_accuracy = 100* np.sum(test_accuracies) / len(dataset_loader.dataset)
+        print(f"Test accuracy: {test_accuracy:.3f}")
+
+        auc = metrics.roc_auc_score(all_targets, all_predictions)
+        print(f"AUC: {auc:.3f}")
+
+    return confusion_matrix
 
 class DiscriminatorFromPretrainedBigGAN(nn.Module):
     def __init__(self):
@@ -71,7 +139,7 @@ def recursively_flatten_modules(module):
 
 def load_biggan_discriminator():
     path = "weights/138k/"
-    d_state_dict = torch.load(path + "D.pth")
+    d_state_dict = torch.load(path + "D.pth", map_location=torch.device('cuda'))
     D = Discriminator(D_ch=96, skip_init=True)
     D.load_state_dict(d_state_dict)
     return D
