@@ -11,3 +11,8 @@ Training a classifier using the last layer of the discriminator:
 
 1. Download the dataset: [deepfake-and-real-images](https://www.kaggle.com/datasets/manjilkarki/deepfake-and-real-images), save it under `BigGAN-PyTorch/datasets/Dataset`
 2. Copy file `src/train-disriminate-last-layer.py` to `BigGAN-PyTorch/`, and run it. Make sure you've got the dataset in `datasets/Dataset`!
+
+### Generate Grad-CAM based heamap
+1. copy `visualize.py` from `src` into `BigGAN-pytorch`   if its not present already in it.
+2. navigate to `BigGAN-pytorch`
+3. run using `python visualize.py`
