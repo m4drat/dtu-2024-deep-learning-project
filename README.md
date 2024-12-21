@@ -11,6 +11,7 @@
 
 1. Download the dataset: [deepfake-and-real-images](https://www.kaggle.com/datasets/manjilkarki/deepfake-and-real-images), save it under `BigGAN-PyTorch/datasets/Dataset`
 2. Copy file `src/train-disriminate-last-layer.py` to `BigGAN-PyTorch/`, and run it. Make sure you've got the dataset in `datasets/Dataset`
+3. Or just download pre-trained model from here: [best_model_params1733195785.9681547-16-0.8005](https://drive.google.com/file/d/1DLahtZ8jHl7xZvRTFduu-ocUjeiVtXY1/view?usp=sharing) and use it with `gan-discriminator-experiments.py`
 
 ### How to run visualizer of Grad-CAM heatmap
 1. Clone the repo using the `--recurse-submodules` , this tag clones the dependency submodule which we have simlined in this repo.
