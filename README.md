@@ -17,3 +17,7 @@
 2. Add path to your input image in the script
 3. Navigate to `BigGAN-pytorch`
 4. Run using `python visualize.py`
+
+### CNN part
+There are two files with weights `faces_weights_128.pth` and `faces-weights-gan.pth` which correspond to experiments 1 and 2 respectfully.
+For the experiments just run the corresponding notebooks (experiment1 and experiment2)
