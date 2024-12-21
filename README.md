@@ -21,3 +21,5 @@
 ### CNN part
 There are two files with weights `faces_weights_128.pth` and `faces-weights-gan.pth` which correspond to experiments 1 and 2 respectfully.
 For the experiments just run the corresponding notebooks (experiment1 and experiment2)
+
+If you want to train the models yourself go to the cnn/training folder and run an appropriate script. There are also bash scripts for making jobs on HPC
