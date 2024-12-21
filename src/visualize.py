@@ -105,6 +105,6 @@ def main(model_path, image_path):
 
 # Example Usage
 model_path = './sam-vis-weights/best_model_params_whole.pth'
-image_path = './imgs/fake-face.jpg'
+image_path = './imgs/real-2.jpg'
 
 main(model_path, image_path)
