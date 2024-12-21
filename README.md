@@ -10,11 +10,25 @@
 ### Training a classifier using the last layer of the discriminator:
 
 1. Download the dataset: [deepfake-and-real-images](https://www.kaggle.com/datasets/manjilkarki/deepfake-and-real-images), save it under `BigGAN-PyTorch/datasets/Dataset`
-2. Copy file `src/train-disriminate-last-layer.py` to `BigGAN-PyTorch/`, and run it. Make sure you've got the dataset in `datasets/Dataset`!
+2. Copy file `src/train-disriminate-last-layer.py` to `BigGAN-PyTorch/`, and run it. Make sure you've got the dataset in `datasets/Dataset`
 
-### Generate Grad-CAM based heamap
-1. Copy `visualize.py` from `src` into `BigGAN-pytorch`   if its not present already in it.
-2. Add path to your input image in the script
+### How to run visualizer of Grad-CAM heatmap
+1. Clone the repo using the `--recurse-submodules` , this tag clones the dependency submodule which we have simlined in this repo.
+2. you have to fetch 2 models ,Get the `model_weights` file from the google drive here . Download the model weights file from google file [weights_file](https://drive.google.com/drive/folders/1IHT0uvJRCyn7BZ3hq8qoNGF1VYCLCRI9?usp=sharing)  and also  and [D.pth](https://drive.google.com/drive/folders/1IHT0uvJRCyn7BZ3hq8qoNGF1VYCLCRI9) paste it under `src/visualize/model_weights` 
+3. Append your python path with the path to the `BigGAN-PyTorch` submodule so that all modules within the library are visible to the python environment. Alternatively you can use the following `setup.py` file to build your wheel and install using pip, this will change references and hence is not recommended.
+```
+setup(
+    name='BigGAN',
+    version='0.1',
+    packages=find_packages(),  # Automatically finds your packages
+)
+```
+4. Run `pip install -r requirements.txt` to install all the dependencies.
+5. cd to `src/visualize` and run `python visualize.py` or run the .ipynb notebook cells, the heatmap generated images can be found under `src/visualize/outputs` 
+### Alternate method to generate Grad-CAM based heatmap
+1. Copy `visualize.py` from `src` into `BigGAN-PyTorch`   if its not present already in it.
+2. We assume that `weights/138k` folder is also present in `BigGAN-PyTorch`
+2. Add path to your input image in the script and path to transfer learned model
 3. Navigate to `BigGAN-pytorch`
 4. Run using `python visualize.py`
 

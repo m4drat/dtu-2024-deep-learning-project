@@ -3,8 +3,6 @@ import torch.nn as nn
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-import sys
-sys.path.append('../../BigGAN-Pytorch/')
 from torch.autograd import Variable
 from torchvision import transforms
 from PIL import Image
@@ -56,7 +54,7 @@ def hook_fn(module, input, output):
 
 # Helper to load BigGAN discriminator
 def load_biggan_discriminator():
-    path = "weights/138k/"  # Replace with the path where your weights are stored
+    path = "model_weights/"  # Replace with the path where your weights are stored
     d_state_dict = torch.load(path + "D.pth")
     D = Discriminator(D_ch=96, skip_init=True)
     D.load_state_dict(d_state_dict)
@@ -184,6 +182,4 @@ def main():
     show_heatmap(image_tensor[0], heatmap)
 
 if __name__ == "__main__":
-    import sys
-    sys.path.append('../../BigGAN-Pytorch/')
     main()
