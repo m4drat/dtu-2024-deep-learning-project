@@ -5,3 +5,4 @@ datasets
 .venv
 archive/
 src/visualize/model_weights/*.8005
+__pycache__

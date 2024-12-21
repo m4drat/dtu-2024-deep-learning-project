@@ -3,10 +3,12 @@ import torch.nn as nn
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import sys
+sys.path.append('../../BigGAN-Pytorch/')
 from torch.autograd import Variable
 from torchvision import transforms
 from PIL import Image
-from BigGAN import Discriminator  # Make sure to import the BigGAN Discriminator class
+from ....BigGAN_Pytorch.BigGAN import Discriminator  # Make sure to import the BigGAN Discriminator class
 from matplotlib.colors import Normalize
 
 # Global variable for storing activations
@@ -182,4 +184,6 @@ def main():
     show_heatmap(image_tensor[0], heatmap)
 
 if __name__ == "__main__":
+    import sys
+    sys.path.append('../../BigGAN-Pytorch/')
     main()
