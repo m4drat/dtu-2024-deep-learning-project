@@ -4,3 +4,4 @@ generated-images
 datasets
 .venv
 archive/
+src/visualize/model_weights/*
